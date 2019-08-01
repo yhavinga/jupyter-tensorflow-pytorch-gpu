@@ -3,7 +3,7 @@
 Docker image with Ubuntu, Cuda drivers, Pytorch with GPU support, docker-stacks-style
 jupyter and and conda installation.
 
-# This image is useful if ..
+# This image is useful if ...
 
 * You have a Linux computer with a Nvidia GPU
 * You want to use PyTorch in a Jupyter Notebook
@@ -14,9 +14,9 @@ jupyter and and conda installation.
 
 # On the docker host
 
-* Following instructions from the [Nvidia Docker Documentation](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
-  to install drivers and configure docker to support the gpu as device.
-* Note that since Docker 19.03 has native gpu support, `nvidia-docker2` is deprecated.
+* Followinstructions from the [Nvidia Docker Documentation](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
+  to install drivers and configure docker to support the GPU as device.
+* Note that since Docker 19.03 has native GPU support, `nvidia-docker2` is deprecated.
 
 I am using on the host
 
