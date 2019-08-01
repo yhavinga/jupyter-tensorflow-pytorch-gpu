@@ -1,12 +1,16 @@
 # nvidia-pytorch-scipy-jupyter
 
-Ubuntu image with Cuda, Pytorch with GPU support, docker-stacks-style
+Docker image with Ubuntu, Cuda drivers, Pytorch with GPU support, docker-stacks-style
 jupyter and and conda installation.
 
-# For who
+# This image is useful if ..
 
-If you have a Linux computer with a Nvidia GPU and want to use PyTorch in a Jupyter Notebook
-or Jupyter Lab environment.
+* You have a Linux computer with a Nvidia GPU
+* You want to use PyTorch in a Jupyter Notebook
+* You want to run experiments with a flexible set of libraries in a
+  dockerized environment
+* You want to run jupyter as unprivileged user (not as root)
+* You want to be able to install conda packages from jupyter
 
 # On the docker host
 
@@ -31,6 +35,12 @@ I am using on the host
 * NOTE: nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
+
+# Readme.txt
+
+NOTE: ON THE DOCKER HUB THIS README IS TRUNCATED.
+SEE THE [README ON GITHUB](https://github.com/yhavinga/nvidia-pytorch-scipy-jupyter/blob/master/README.md)
+FOR THE COMPLETE VERSION.
 
 # Usage
 
