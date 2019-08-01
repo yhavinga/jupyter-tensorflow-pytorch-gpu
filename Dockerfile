@@ -268,8 +268,6 @@ RUN git config --global core.excludesfile ~/.gitignore_global && \
     git config --global user.email "you@example.com" && \
     git config --global user.name "Your Name"
 
-# Tensorboard
-EXPOSE 6006
 # Jupyter Notebook
 EXPOSE 8888
 
