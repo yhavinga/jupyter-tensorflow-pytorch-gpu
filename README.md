@@ -1,24 +1,39 @@
 # nvidia-pytorch-scipy-jupyter
 
-Docker image with Ubuntu, Cuda drivers, Pytorch with GPU support, docker-stacks-style
-jupyter and and conda installation.
+Docker image with Ubuntu, Cuda drivers, Pytorch with GPU support, Jupyter
+SciPy data science notebook, Tensorflow and several useful notebook and
+labextensions, as well as a PostgreSQL client.
 
-# This image is useful if ...
+# This image is useful if:
 
 * You have a Linux computer with a Nvidia GPU
+* You want to run experiments in a dockerized environment
 * You want to use PyTorch in a Jupyter Notebook
-* You want to run experiments with a flexible set of libraries in a
-  dockerized environment
 * You want to run jupyter as unprivileged user (not as root)
 * You want to be able to install conda packages from jupyter
 
+The image was constructed by rebuilding the Jupyter docker-stack SciPy image
+on an Nvidia Ubuntu 18.04 image with a Cuda version specifically chosen to
+match the PyTorch version.
+
+Merging Dockerfiles instead of building from an existing image was a last
+resort; existing PyTorch images with Jupyter either did not have GPU support,
+or had a minimal Jupyter installation. Since I like the configuration of the
+unprivileged `jovyan` user of the official Jupyter docker images, I tried to
+add Cuda and PyTorch to these existing images, but that resulted in
+installation errors or dependency conflicts. Building PyTorch from source
+was not trivial, therefore a conda installation of PyTorch was prefered.
+A Nvidia Cuda Ubuntu image, hand picked to match the PyTorch version, was
+used as base image to rebuild the Jupyter SciPy image on.
+The result is this image.
+
 # On the docker host
 
-* Followinstructions from the [Nvidia Docker Documentation](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
+* Follow instructions from the [Nvidia Docker Documentation](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
   to install drivers and configure docker to support the GPU as device.
 * Note that since Docker 19.03 has native GPU support, `nvidia-docker2` is deprecated.
 
-I am using on the host
+These software versions on the host are known to work with this image:
 
 * Ubuntu 18.04
 * Nvidia 410 driver (to match cuda10.0 in the container)
@@ -29,14 +44,14 @@ I am using on the host
 
 * Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
-* Pytorch -> python 3.6 pytorch package with GPU support
+* Pytorch -> pytorch package with GPU support
 * Python PostgreSQL client
 * and some useful lab and nb extensions such as ExecuteTime
 * NOTE: nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
 
-# Readme.txt
+# README.md
 
 NOTE: ON THE DOCKER HUB THIS README IS TRUNCATED.
 SEE THE [README ON GITHUB](https://github.com/yhavinga/nvidia-pytorch-scipy-jupyter/blob/master/README.md)

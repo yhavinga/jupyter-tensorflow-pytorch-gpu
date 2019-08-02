@@ -3,7 +3,7 @@ version: '2.3'
 services:
 
   jupyterlab-torch:
-    image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.6-ubuntu18.04
+    image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.7-ubuntu18.04
     build:
       context: .
     runtime: nvidia

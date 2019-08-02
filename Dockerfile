@@ -86,24 +86,17 @@ RUN $CONDA_DIR/bin/conda install --quiet --yes conda && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-#---------------- PyTorch stuff ----------------------
-# Create a Python 3.6 environment
-# CUDA 10.0-specific steps
-RUN conda install --quiet --yes python=3.6 && \
-    conda install -y -c pytorch \
-    cuda100=1.0 \
-    magma-cuda100=2.4.0 \
-    "pytorch=1.0.0=py3.6_cuda10.0.130_cudnn7.4.1_1" \
-    torchvision=0.2.1 && \
+# Fix numpy on 1.16.4 to prevent tensorflow triggering numpy 1.17 warnings
+RUN conda install -y numpy=1.16.4 && \
     conda clean --all -f -y
 
-# Install HDF5 Python bindings
-RUN conda install -y h5py=2.8.0 \
-	requests \
-	graphviz && \
-    pip install h5py-cache==1.0 \
-	torchnet==0.0.4 \
-	graphviz && \
+#---------------- PyTorch stuff ----------------------
+# Fix on PyTorch for Python 3.7 and Cuda 10.0
+RUN conda install -y -c pytorch \
+    cuda100=1.0 \
+    magma-cuda100=2.4.0 \
+    "pytorch=1.0.1=py3.7_cuda10.0.130_cudnn7.4.2_2" \
+    torchvision=0.2.1 && \
     conda clean --all -f -y
 
 #---------------- Notebook stuff ----------------------
@@ -112,13 +105,6 @@ RUN conda install --quiet --yes 'tini=0.18.0' && \
     conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
-# Install Jupyter Notebook, Lab, and Hub
-# Generate a notebook server config
-# Cleanup temporary files
-# Correct permissions
-# Do all this in a single RUN command to avoid duplicating all of the
-# files across image layers when the permissions change
 
 RUN conda install --quiet --yes \
     'notebook=5.7.8' \
@@ -230,6 +216,8 @@ RUN conda install -c biobuilds \
         tensorflow \
         psycopg2 && \
     conda install -c conda-forge \
+	requests \
+	graphviz \
         ipython-sql \
         tensorboardx \
         nbstripout \
@@ -238,10 +226,15 @@ RUN conda install -c biobuilds \
         jupyterlab-plotly-extension \
         hide_code && \
     conda clean --all -f -y && \
+    pip install h5py-cache \
+	torchnet \
+	graphviz && \
     jupyter nbextension enable python-markdown/main --sys-prefix && \
     jupyter nbextension enable hide_code/hide_code --sys-prefix && \
     jupyter labextension install jupyterlab_tensorboard && \
-    pip install jupyter_tensorboard torchvision scikit-image && \
+    pip install jupyter_tensorboard \
+        torchvision \
+        scikit-image && \
     jupyter labextension install @jupyterlab/git && \
     pip install jupyterlab-git && \
     jupyter serverextension enable --py jupyterlab_git && \
