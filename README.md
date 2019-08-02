@@ -51,12 +51,6 @@ These software versions on the host are known to work with this image:
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
 
-# README.md
-
-NOTE: ON THE DOCKER HUB THIS README IS TRUNCATED.
-SEE THE [README ON GITHUB](https://github.com/yhavinga/nvidia-pytorch-scipy-jupyter/blob/master/README.md)
-FOR THE COMPLETE VERSION.
-
 # Usage
 
 There are many ways to tell docker to start a container with gpu support,
@@ -67,7 +61,7 @@ I prefer to start containers with parameters in a docker-compose file, instead o
 long list of arguments to a docker run command.
 To use the supplied docker-compose file, you need `nvidia-docker2` installed with a version that
 matches your docker version. Note that the `runtime` directive in the docker-compose file is
-only available in docker-compose file versions >=2.3 and <3.
+only available in docker-compose file versions >=2.3 and &lt;3.
 
     $ cat docker-compose.yml
     version: '2.3'
