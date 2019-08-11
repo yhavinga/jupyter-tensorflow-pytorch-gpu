@@ -30,8 +30,12 @@ I am using on the host
 * Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
 * Pytorch -> python 3.6 pytorch package with GPU support
+
+# Additional addons built by Dockerfile.addons
+
 * Python PostgreSQL client
-* and some useful lab and nb extensions such as ExecuteTime
+* and some useful lab and nb extensions such as Python Markdown, Hide Code,
+  ExecuteTime, Jupyterlab Drawio
 * NOTE: nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
