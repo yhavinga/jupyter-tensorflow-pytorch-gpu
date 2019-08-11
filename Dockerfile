@@ -106,6 +106,12 @@ RUN conda install --quiet --yes 'tini=0.18.0' && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+# Install Jupyter Notebook, Lab, and Hub
+# Generate a notebook server config
+# Cleanup temporary files
+# Correct permissions
+# Do all this in a single RUN command to avoid duplicating all of the
+# files across image layers when the permissions change
 RUN conda install --quiet --yes \
     'notebook=5.7.8' \
     'jupyterhub=1.0.0' \
@@ -117,7 +123,6 @@ RUN conda install --quiet --yes \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
 
 #---------------- minimal notebook ----------------
 # Install all OS dependencies for fully functional notebook server
@@ -205,61 +210,6 @@ RUN cd /tmp && \
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions /home/$NB_USER
-
-#---------------- Final add-ons -------------
-# PostgreSQL client
-# Jupyter notebook and lab extensions
-RUN conda install -c biobuilds \
-        postgresql-client && \
-    conda install -y nodejs \
-        Cython \
-        tensorflow \
-        psycopg2 && \
-    conda install -c conda-forge \
-	requests \
-	graphviz \
-        ipython-sql \
-        tensorboardx \
-        nbstripout \
-        jupyter_contrib_nbextensions \
-        jupyter_nbextensions_configurator \
-        jupyterlab-plotly-extension \
-        hide_code && \
-    conda clean --all -f -y && \
-    pip install h5py-cache \
-	torchnet \
-	graphviz && \
-    jupyter nbextension enable python-markdown/main --sys-prefix && \
-    jupyter nbextension enable hide_code/hide_code --sys-prefix && \
-    jupyter labextension install jupyterlab_tensorboard && \
-    pip install jupyter_tensorboard \
-        torchvision \
-        scikit-image && \
-    jupyter labextension install @jupyterlab/git && \
-    pip install jupyterlab-git && \
-    jupyter serverextension enable --py jupyterlab_git && \
-    jupyter labextension install @jupyterlab/toc && \
-    jupyter labextension install jupyterlab-drawio && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    rm -rf /home/$NB_USER/.node-gyp && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-
-USER root
-
-RUN git config --global core.excludesfile ~/.gitignore_global && \
-    echo "**/*.ipynb_checkpoints/" >> ~/.gitignore_global && \
-    git config --global core.attributesfile ~/.gitattributes_global && \
-    git config --global filter.nbstripout.clean '$(which nbstripout)' && \
-    git config --global filter.nbstripout.smudge cat && \
-    git config --global filter.nbstripout.required true && \
-    echo "*.ipynb filter=nbstripout" >> ~/.gitattributes_global && \
-    echo "*.ipynb diff=ipynb" >> ~/.gitattributes_global && \
-    git config --global diff.ipynb.textconv '$(which nbstripout) -t' && \
-    git config --global user.email "you@example.com" && \
-    git config --global user.name "Your Name"
 
 # Jupyter Notebook
 EXPOSE 8888

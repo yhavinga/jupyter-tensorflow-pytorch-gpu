@@ -16,3 +16,9 @@ services:
       - ./dotjupyter:/home/jovyan/.jupyter
     ports:
       - 8888:8888
+
+  jupyterlab-torch-addons:
+    image: yhavinga/nvidia-pytorch-scipy-jupyter-addons:pytorch1.0.1-cuda10.0-py3.7-ubuntu18.04
+    build:
+      dockerfile: Dockerfile.addons
+      context: .

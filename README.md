@@ -45,8 +45,12 @@ These software versions on the host are known to work with this image:
 * Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
 * Pytorch -> pytorch package with GPU support
+
+# Additional addons built by Dockerfile.addons
+
 * Python PostgreSQL client
-* and some useful lab and nb extensions such as ExecuteTime
+* and some useful lab and nb extensions such as Python Markdown, Hide Code,
+  ExecuteTime, Jupyterlab Drawio
 * NOTE: nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
@@ -69,7 +73,7 @@ only available in docker-compose file versions >=2.3 and &lt;3.
     services:
     
       jupyterlab-torch:
-        image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.6-ubuntu18.04
+        image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.7-ubuntu18.04
         build:
           context: .
         runtime: nvidia
@@ -98,7 +102,7 @@ Start a new notebook and run
     import torch
     torch.cuda.is_available()
     
-this should return
+to test if Cuda is available to PyTorc. It should return
 
     True
 
