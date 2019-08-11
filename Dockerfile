@@ -86,12 +86,12 @@ RUN $CONDA_DIR/bin/conda install --quiet --yes conda && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Fix numpy on 1.16.4 to prevent tensorflow triggering numpy 1.17 warnings
+# Pin numpy on 1.16.4 to prevent tensorflow triggering numpy 1.17 warnings
 RUN conda install -y numpy=1.16.4 && \
     conda clean --all -f -y
 
 #---------------- PyTorch stuff ----------------------
-# Fix on PyTorch for Python 3.7 and Cuda 10.0
+# Pin PyTorch on Python 3.7 and Cuda 10.0
 RUN conda install -y -c pytorch \
     cuda100=1.0 \
     magma-cuda100=2.4.0 \

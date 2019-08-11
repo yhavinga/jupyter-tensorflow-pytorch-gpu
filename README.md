@@ -45,20 +45,23 @@ These software versions on the host are known to work with this image:
 * Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
 * Pytorch -> pytorch package with GPU support
+* Images exist for Python 3.6 and 3.7
 
-# Additional addons built by Dockerfile.addons
+# Additional software built by Dockerfile.addons
 
 * Python PostgreSQL client
 * and some useful lab and nb extensions such as Python Markdown, Hide Code,
   ExecuteTime, Jupyterlab Drawio
-* NOTE: nbstripout is configured to prevent accidental publishing of notebook output
+* ggplot is only available in the addons image from the Python 3.6
+branch.
+* nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
   nbstripout is the cause. 
 
 # Usage
 
 There are many ways to tell docker to start a container with gpu support,
-see `https://devblogs.nvidia.com/gpu-containers-runtime/` and `https://github.com/NVIDIA/nvidia-docker`
+see https://devblogs.nvidia.com/gpu-containers-runtime/ and https://github.com/NVIDIA/nvidia-docker
 for more information.
 
 I prefer to start containers with parameters in a docker-compose file, instead of supplying a
@@ -102,7 +105,7 @@ Start a new notebook and run
     import torch
     torch.cuda.is_available()
     
-to test if Cuda is available to PyTorc. It should return
+to test if Cuda is available to PyTorch. It should return
 
     True
 
