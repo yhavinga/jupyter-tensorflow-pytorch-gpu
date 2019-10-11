@@ -150,6 +150,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     unzip \
     nano \
     ffmpeg \
+    libnvinfer5=5.1.5-1+cuda10.0 \
+    libnvinfer-dev=5.1.5-1+cuda10.0 \
     && rm -rf /var/lib/apt/lists/*
 
 USER $NB_UID
