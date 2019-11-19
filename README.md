@@ -1,14 +1,14 @@
 # nvidia-pytorch-scipy-jupyter
 
-Docker image with Ubuntu, Cuda drivers, Pytorch with GPU support, Jupyter
+Docker images with Ubuntu, Cuda drivers, Pytorch with GPU support, Jupyter
 SciPy data science notebook, Tensorflow and several useful notebook and
 labextensions, as well as a PostgreSQL client.
 
-# This image is useful if:
+# These images are useful if:
 
 * You have a Linux computer with a Nvidia GPU
 * You want to run experiments in a dockerized environment
-* You want to use PyTorch in a Jupyter Notebook
+* You want to use PyTorch or TensorFlow in a Jupyter Notebook
 * You want to run jupyter as unprivileged user (not as root)
 * You want to be able to install conda packages from jupyter
 
@@ -40,23 +40,30 @@ These software versions on the host are known to work with this image:
 * Docker-ce 18.09 (from [docker.com](https://docs.docker.com/install/linux/docker-ce/ubuntu/), not the ubuntu docker.io package)
 * The 'old' `nvidia-docker2` (see the usage with docker-compose below) instead of `nvidia-container-toolkit`
 
-# Installed software in this image
+# Installed software in the base image
 
 * Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
 * Pytorch -> pytorch package with GPU support
 * Images exist for Python 3.6 and 3.7
 
-# Additional software built by Dockerfile.addons
+# Additional software in the addon image (see addon directory)
 
+* TensorFlow
 * Python PostgreSQL client
-* and some useful lab and nb extensions such as Python Markdown, Hide Code,
+* Visualization libraries
+* Financial and other datareaders
+* OpenAI gym
+* Google cloud platform tools
+* Lab and NB extensions such as Python Markdown, Hide Code,
   ExecuteTime, Jupyterlab Drawio
+* Pixiedust notebook debugger
 * ggplot is only available in the addons image from the Python 3.6
-branch.
+  branch.
 * nbstripout is configured to prevent accidental publishing of notebook output
   to git repositories - if you wonder why output is not visible in committed notebooks,
-  nbstripout is the cause. 
+  nbstripout is the cause.
+* Some usefile CLI commands like `less`, `htop` and `nvtop`
 
 # Usage
 
@@ -76,6 +83,7 @@ only available in docker-compose file versions >=2.3 and &lt;3.
     services:
     
       jupyterlab-torch:
+    # choose either the base or the addon image here
         image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.7-ubuntu18.04
         build:
           context: .
