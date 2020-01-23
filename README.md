@@ -1,8 +1,8 @@
-# nvidia-pytorch-scipy-jupyter
+# jupyter-tensorflow-pytorch-gpu
 
-Docker images with Ubuntu, Cuda drivers, Pytorch with GPU support, Jupyter
-SciPy data science notebook, Tensorflow and several useful notebook and
-labextensions, as well as a PostgreSQL client.
+Docker images with Ubuntu, Cuda drivers, TensorFlow and Pytorch with GPU support,
+Jupyter data science notebook, and several useful notebook and
+labextensions.
 
 # These images are useful if:
 
@@ -13,8 +13,8 @@ labextensions, as well as a PostgreSQL client.
 * You want to be able to install conda packages from jupyter
 
 The image was constructed by rebuilding the Jupyter docker-stack SciPy image
-on an Nvidia Ubuntu 18.04 image with a Cuda version specifically chosen to
-match the PyTorch version.
+on a TensorFlow-GPU Ubuntu 18.04 image with a Cuda version specifically chosen
+to match the PyTorch version.
 
 Merging Dockerfiles instead of building from an existing image was a last
 resort; existing PyTorch images with Jupyter either did not have GPU support,
@@ -36,20 +36,16 @@ The result is this image.
 These software versions on the host are known to work with this image:
 
 * Ubuntu 18.04
-* Nvidia 410 driver (to match cuda10.0 in the container)
+* Nvidia 440 driver (to match cuda10.1 in the container)
 * Docker-ce 18.09 (from [docker.com](https://docs.docker.com/install/linux/docker-ce/ubuntu/), not the ubuntu docker.io package)
 * The 'old' `nvidia-docker2` (see the usage with docker-compose below) instead of `nvidia-container-toolkit`
 
-# Installed software in the base image
+# Installed software in the image
 
-* Nvidia-ubuntu -> Ubuntu image with Cuda device drivers
+* TensorFlow-GPU Ubuntu image with Cuda device drivers
 * Docker-stacks -> Base, minimal and scipy notebooks
+* Conda Python 3.7
 * Pytorch -> pytorch package with GPU support
-* Images exist for Python 3.6 and 3.7
-
-# Additional software in the addon image (see addon directory)
-
-* TensorFlow
 * Python PostgreSQL client
 * Visualization libraries
 * Financial and other datareaders
@@ -82,9 +78,8 @@ only available in docker-compose file versions >=2.3 and &lt;3.
     
     services:
     
-      jupyterlab-torch:
-    # choose either the base or the addon image here
-        image: yhavinga/nvidia-pytorch-scipy-jupyter:pytorch1.0.1-cuda10.0-py3.7-ubuntu18.04
+      jupyter-tensorflow-pytorch-gpu:
+        image: yhavinga/jupyter-tensorflow-pytorch-gpu:tensorflow2.1.0-pytorch1.4.0-cuda10.1-ubuntu18.04
         build:
           context: .
         runtime: nvidia
@@ -119,17 +114,18 @@ to test if Cuda is available to PyTorch. It should return
 
 # Background
 
-Pytorch is tied to specific versions of the Cuda software. To have a Pytorch installation
-with GPU support, it was required to use a specific Nvidia ubuntu image as starting point,
-and add Pytorch and the complete base-notebook, minimal-notebook and scipy-notebook on top
-of that image.
+TensorFlow and PyTorch are tied to specific versions of the Cuda software.
+To have a juptyer notebook image with GPU enabled TensorFlow and PyTorch, it
+was required to use a specific TensorFlow-GPU image with Nvidia Cuda image
+as a starting point, and add PyTorch and the complete base-notebook,
+minimal-notebook and scipy-notebook on top of that image.
 The alternative route, adding Cuda and Pytorch to the docker-stacks scipy image failed due to
 unsurmountable dependency conflicts.
 
 # References
 
  * [Nvidia Docker Image documentation](https://github.com/NVIDIA/nvidia-docker/wiki)
- * [Nvidia Cuda Image Tags](https://hub.docker.com/r/nvidia/cuda/tags)
+ * [TensorFlow Image Tags](https://hub.docker.com/r/tensorflow/tensorflow/tags)
+ * [PyTorch Conda versions](https://anaconda.org/pytorch/pytorch/files)
  * [Jupyter Scipy Docker documentation](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook)
  * [Miniconda installation](https://docs.conda.io/en/latest/miniconda.html)
- * [PyTorch local installation](https://pytorch.org/get-started/locally/)
